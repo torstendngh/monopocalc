@@ -1,0 +1,25 @@
+:root {
+  --color-background: #36474e;
+  --color-blur-background: #36474ee8;
+
+  --color-player-background: #ffffff;
+  --color-player-seperator: #dbe1e4;
+  --color-player-text-1: #364851;
+  --color-player-text-2: #b0bac0;
+
+  --color-player-accent-1: #8c6e63;
+  --color-player-accent-2: #01bcd6;
+  --color-player-accent-3: #ac46bd;
+  --color-player-accent-4: #ff9800;
+  --color-player-accent-5: #dc4c41;
+  --color-player-accent-6: #fec106;
+  --color-player-accent-7: #8cc44b;
+  --color-player-accent-8: #2196f3;
+
+  --color-popup-background: #ffffff;
+
+  --color-textbox-background: #f7f7f7;
+  --color-textbox-border: #dbe1e4;
+
+  --color-switch-background: #b0bac0;
+}

@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "plex-semibold";
+  src: url("/app/fonts/ibm_plex_sans/IBMPlexSans-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "plex-semibold-mono";
+  src: url("/app/fonts/ibm_plex_mono/IBMPlexMono-SemiBold.ttf");
+}
