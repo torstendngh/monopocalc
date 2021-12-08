@@ -1,5 +1,10 @@
-let startCapital = 2500
+let startCapital = 1500
+let salary = 200
 let container = document.getElementById("player-container")
+let mode = "subtract"
+
+let audioCash = new Audio('app/audio/cash.mp3');
+let audioError = new Audio('app/audio/error.mp3');
 
 let players = [
   {
@@ -59,12 +64,23 @@ function addPlayer(parent, player) {
       <div class="player-button">
         <div class="player-button-icon">
           <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 16.6944 7.30558 20.5 12 20.5C16.6944 20.5 20.5 16.6944 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM12 7C12.4142 7 12.75 7.33579 12.75 7.75V11.25H16.25C16.6642 11.25 17 11.5858 17 12C17 12.4142 16.6642 12.75 16.25 12.75H12.75V16.25C12.75 16.6642 12.4142 17 12 17C11.5858 17 11.25 16.6642 11.25 16.25V12.75H7.75C7.33579 12.75 7 12.4142 7 12C7 11.5858 7.33579 11.25 7.75 11.25H11.25V7.75C11.25 7.33579 11.5858 7 12 7Z"
-              fill="currentColor" />
+            <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 16.6944 7.30558 20.5 12 20.5C16.6944 20.5 20.5 16.6944 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM15.4462 8.39705L15.5303 8.46967C15.7966 8.73594 15.8208 9.1526 15.6029 9.44621L15.5303 9.53033L13.061 12L15.5303 14.4697C15.7966 14.7359 15.8208 15.1526 15.6029 15.4462L15.5303 15.5303C15.2641 15.7966 14.8474 15.8208 14.5538 15.6029L14.4697 15.5303L12 13.061L9.53033 15.5303C9.26406 15.7966 8.8474 15.8208 8.55379 15.6029L8.46967 15.5303C8.2034 15.2641 8.1792 14.8474 8.39705 14.5538L8.46967 14.4697L10.939 12L8.46967 9.53033C8.2034 9.26406 8.1792 8.8474 8.39705 8.55379L8.46967 8.46967C8.73594 8.2034 9.1526 8.1792 9.44621 8.39705L9.53033 8.46967L12 10.939L14.4697 8.46967C14.7359 8.2034 15.1526 8.1792 15.4462 8.39705Z" fill="currentColor"/>
           </svg>
         </div>
-        <span class="player-button-text">Add Salary</span>
+        <span class="player-button-text">Give Up</span>
+      </div>
+
+      <div class="player-seperator"></div>
+
+      <div class="player-button" onclick="addSalary('${playerName}')">
+        <div class="player-button-icon">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.5 8C8.84315 8 7.5 9.34315 7.5 11C7.5 12.6569 8.84315 14 10.5 14C12.1569 14 13.5 12.6569 13.5 11C13.5 9.34315 12.1569 8 10.5 8ZM9 11C9 10.1716 9.67157 9.5 10.5 9.5C11.3284 9.5 12 10.1716 12 11C12 11.8284 11.3284 12.5 10.5 12.5C9.67157 12.5 9 11.8284 9 11Z" fill="currentColor"/>
+            <path d="M2 7.25C2 6.00736 3.00736 5 4.25 5H16.75C17.9926 5 19 6.00736 19 7.25V14.75C19 15.9926 17.9926 17 16.75 17H4.25C3.00736 17 2 15.9926 2 14.75V7.25ZM4.25 6.5C3.83579 6.5 3.5 6.83579 3.5 7.25V8H4.25C4.66421 8 5 7.66421 5 7.25V6.5H4.25ZM3.5 12.5H4.25C5.49264 12.5 6.5 13.5074 6.5 14.75V15.5H14.5V14.75C14.5 13.5074 15.5074 12.5 16.75 12.5H17.5V9.5H16.75C15.5074 9.5 14.5 8.49264 14.5 7.25V6.5H6.5V7.25C6.5 8.49264 5.49264 9.5 4.25 9.5H3.5V12.5ZM17.5 8V7.25C17.5 6.83579 17.1642 6.5 16.75 6.5H16V7.25C16 7.66421 16.3358 8 16.75 8H17.5ZM17.5 14H16.75C16.3358 14 16 14.3358 16 14.75V15.5H16.75C17.1642 15.5 17.5 15.1642 17.5 14.75V14ZM3.5 14.75C3.5 15.1642 3.83579 15.5 4.25 15.5H5V14.75C5 14.3358 4.66421 14 4.25 14H3.5V14.75Z" fill="currentColor"/>
+            <path d="M4.40137 18.5C4.92008 19.3967 5.8896 20 7.00002 20H17.25C19.8734 20 22 17.8734 22 15.25V10C22 8.8896 21.3967 7.92008 20.5 7.40137V15.25C20.5 17.0449 19.0449 18.5 17.25 18.5H4.40137Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="player-button-text">Passed Go</span>
       </div>
 
       <div class="player-button player-button-accent" style="background-color: var(${playerColor});" onclick="openTransactionPopup('${playerName}')">
@@ -91,9 +107,16 @@ function addPlayer(parent, player) {
   }
 }
 
-
-
-let mode = "subtract"
+function addSalary(player) {
+  let index = players.findIndex((element, index) => {
+    if (element.name === player) {
+      return true
+    }
+  })
+  players[index]["capital"] += salary
+  updatePlayers()
+  audioCash.play();
+}
 
 function openTransactionPopup(player) {
 
@@ -105,7 +128,7 @@ function openTransactionPopup(player) {
   let buttonAccept = document.getElementById("id-popup-button-accept")
   let textbox = document.getElementById("id-popup-textbox")
   let modeSymbol = document.getElementById("popup-mode")
-  let audio = new Audio('app/audio/cash.mp3');
+
 
   let index = players.findIndex((element, index) => {
     if (element.name === player) {
@@ -132,18 +155,27 @@ function openTransactionPopup(player) {
   };
 
   buttonAccept.onclick = () => {
-    console.log(index);
-    switch (mode) {
-      case "subtract": {
-        players[index]["capital"] -= parseInt(document.getElementById("id-popup-textbox").value)
-      } break
-      case "add": {
-        players[index]["capital"] += parseInt(document.getElementById("id-popup-textbox").value)
-      } break
+
+    if (!isNaN(parseInt(document.getElementById("id-popup-textbox").value))) {
+      switch (mode) {
+        case "subtract": {
+          players[index]["capital"] -= parseInt(document.getElementById("id-popup-textbox").value)
+        } break
+        case "add": {
+          players[index]["capital"] += parseInt(document.getElementById("id-popup-textbox").value)
+        } break
+      }
+      audioCash.play();
+      updatePlayers()
+      closeTransactionPopup()
+    } else {
+      textbox.classList.add("shake-horizontal")
+      audioError.play();
+      textbox.addEventListener("webkitAnimationEnd", () => {
+        textbox.classList.remove("shake-horizontal")
+      })
     }
-    audio.play();
-    updatePlayers()
-    closeTransactionPopup()
+
   };
 
   name.innerHTML = `${player}\'s Current Balance`
@@ -152,9 +184,6 @@ function openTransactionPopup(player) {
 }
 
 function closeTransactionPopup() {
-
   let popup = document.getElementById("id-popup-transaction")
-
   popup.style.display = "none"
-
 }
