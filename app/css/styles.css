@@ -47,7 +47,6 @@ body {
   align-items: stretch;
   flex-direction: row;
   justify-content: flex-start;
-  flex-grow: 1;
 
   margin: 32px 32px 0 32px;
   border-radius: 10px;
@@ -114,13 +113,7 @@ body {
 }
 
 .player-button:hover {
-  background-color: var(--color-player-seperator);
-  cursor: pointer;
-}
-
-.player-button-accent:hover {
-  background-color: var(--color-player-seperator);
-  color: var(--color-player-text-1);
+  /* background-color: var(--color-player-seperator); */
   cursor: pointer;
 }
 
@@ -169,7 +162,7 @@ body {
 
 .popup-container {
   background-color: var(--color-popup-background);
-  padding: 32px 32px 0 32px;
+  padding: 0;
   border-radius: 6px;
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.192) 0px 22px 70px 4px;
@@ -188,6 +181,7 @@ body {
   color: var(--color-player-text-2);
   font-size: 22px;
   margin-bottom: -16px;
+  margin-top: 64px;
 }
 
 .popup-balance-container {
@@ -201,7 +195,7 @@ body {
   flex-direction: row;
   padding: 4px;
   border-radius: 1000px;
-  margin-bottom: 48px;
+  margin: 0 64px 48px 64px;
 }
 
 .popup-switch-option {
@@ -211,10 +205,6 @@ body {
   min-width: 200px;
   text-align: center;
   cursor: pointer;
-}
-
-.popup-switch-option:hover {
-  background-color: var(--color-player-seperator);
 }
 
 .popup-switch-option-selected {
@@ -276,16 +266,17 @@ body {
 .popup-button {
   padding: 32px;
   margin-top: 48px;
-  border-top: solid 2px var(--color-player-seperator);
+  /* border-top: solid 2px var(--color-player-seperator); */
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 22px;
+  background-color: var(--color-player-accent-2);
+  color: white;
 }
 
 .popup-button:hover {
-  background-color: var(--color-player-seperator);
   cursor: pointer;
 }
 
@@ -296,4 +287,25 @@ body {
   padding: 16px;
   cursor: pointer;
   margin: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--color-switch-background);
+  border-radius: 100px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-player-background);
 }
