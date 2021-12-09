@@ -37,6 +37,7 @@ body {
   height: 100vh;
   overflow: hidden;
   background-color: var(--color-background);
+  overscroll-behavior: contain;
 }
 
 /* PLAYER */

@@ -46,8 +46,6 @@
 }
 
 .player-seperator {
-  width: 1px;
-  background-color: var(--color-player-seperator);
 }
 
 .player-button {
@@ -57,6 +55,7 @@
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  border-left: 2px solid var(--color-player-seperator);
   color: var(--color-player-text-1);
 }
 
