@@ -7,55 +7,75 @@ let audioCash = new Audio("app/audio/cash.mp3");
 let audioError = new Audio("app/audio/error.mp3");
 let audioClick = new Audio("app/audio/click.mp3");
 let audioPowerup = new Audio("app/audio/powerup.mp3");
+let audioReset = new Audio("app/audio/reset.mp3");
 
-let players = [
-  {
-    name: "Player 1",
-    capital: startCapital,
-    token: "hat",
-    capitalchange: false,
-    lost: false,
-  },
-  {
-    name: "Player 2",
-    capital: startCapital,
-    token: "barrow",
-    capitalchange: false,
-    lost: false,
-  },
-  {
-    name: "Player 3",
-    capital: startCapital,
-    token: "ship",
-    capitalchange: false,
-    lost: false,
-  },
-  {
-    name: "Player 4",
-    capital: startCapital,
-    token: "thimble",
-    capitalchange: false,
-    lost: false,
-  },
-  {
-    name: "Player 5",
-    capital: startCapital,
-    token: "dog",
-    capitalchange: false,
-    lost: false,
-  },
-];
+let players
+
+try {
+  players = JSON.parse(localStorage.players);
+} catch(e) {
+  players = [
+    {
+      name: "Player 1",
+      capital: startCapital,
+      token: "hat",
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Player 2",
+      capital: startCapital,
+      token: "car",
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Player 3",
+      capital: startCapital,
+      token: "ship",
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Player 4",
+      capital: startCapital,
+      token: "thimble",
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Player 5",
+      capital: startCapital,
+      token: "dog",
+      capitalchange: false,
+      lost: false,
+    },
+  ];
+  localStorage.players = JSON.stringify(players)
+}
 
 updatePlayers();
 window.onbeforeunload = function () {
   return false;
 };
 
+function resetGame() {
+  playSound(audioClick);
+  playSound(audioReset);
+  for (let player of players) {
+    player["capital"] = startCapital
+    player["lost"] = false
+    player["capitalchange"] = false
+  }
+  updatePlayers();
+}
+
 function updatePlayers() {
   document.querySelectorAll(".player").forEach((e) => e.remove());
   for (let player of players) {
     addPlayer(container, player);
   }
+  localStorage.players = JSON.stringify(players)
 }
 
 function addPlayer(parent, player) {
@@ -263,4 +283,26 @@ function closeOptionsPopup() {
   playSound(audioClick);
   let popup = document.getElementById("id-popup-options");
   popup.style.display = "none";
+}
+
+function toggleFullscreen() {
+  playSound(audioClick);
+  if (!document.fullscreenElement &&
+    !document.mozFullScreenElement && !document.webkitFullscreenElement) {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) {
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) {
+      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+  } else {
+    if (document.cancelFullScreen) {
+      document.cancelFullScreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitCancelFullScreen) {
+      document.webkitCancelFullScreen();
+    }
+  }
 }
