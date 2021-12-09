@@ -37,7 +37,9 @@ let players = [
 ];
 
 updatePlayers();
-window.onbeforeunload = function () {return false;}
+window.onbeforeunload = function () {
+  return false;
+};
 
 function updatePlayers() {
   document.querySelectorAll(".player").forEach((e) => e.remove());
@@ -47,7 +49,7 @@ function updatePlayers() {
 }
 
 function addPlayer(parent, player) {
-  let playerName = player["name"];
+  let playerName = player["lost"] ? "👻 " + player["name"] : player["name"];
   let playerCapital = player["capital"];
   let playerAlive = player["lost"] ? "player-dead" : "";
   let inRed =
@@ -225,14 +227,13 @@ function playSound(sound) {
 
 function openOptionsPopup() {
   playSound(audioClick);
-  let popup = document.getElementById("id-popup-options")
+  let popup = document.getElementById("id-popup-options");
 
   popup.style.display = "flex";
 }
 
 function closeOptionsPopup() {
   playSound(audioClick);
-  let popup = document.getElementById("id-popup-options")
-
+  let popup = document.getElementById("id-popup-options");
   popup.style.display = "none";
 }
