@@ -12,23 +12,6 @@
   animation: fade-in 0.2s cubic-bezier(0.39, 0.575, 0.565, 1) both; */
 }
 
-.puff-out-center {
-  -webkit-animation: puff-out-center 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) 2s
-    both;
-  animation: puff-out-center 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) 2s both;
-}
-
-.shake-horizontal {
-  -webkit-animation: shake-horizontal 0.8s
-    cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
-  animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
-  color: var(--color-player-accent-5);
-}
-
-.shake-horizontal::placeholder {
-  color: var(--color-player-accent-5);
-}
-
 .popup-container-transaction {
   background-color: var(--color-popup-background);
   padding: 0;

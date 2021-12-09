@@ -1,14 +1,11 @@
 #option-open {
   background-color: var(--color-player-background);
   height: 80px;
-  width: 400px;
+  width: 80px;
   position: absolute;
-  left: 0;
   right: 0;
-  margin-left: auto;
-  margin-right: auto;
   box-shadow: rgba(0, 0, 0, 0.192) 0px 22px 70px 4px;
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 0 16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,11 +31,6 @@
   animation: slide-in-blurred-bottom 0.2s cubic-bezier(0.23, 1, 0.32, 1) both; */
 }
 
-.option-chevron {
-  transform: rotate(90deg);
-  padding-right: 12px;
-}
-
 .popup-menu-item-container {
   display: flex;
   align-items: center;
@@ -47,12 +39,8 @@
   border-top: 2px solid var(--color-player-seperator);
 }
 
-.popup-menu-item-container:first-child {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: flex-start;
-  margin-top: 64px;
+.popup-menu-item-container:hover {
+  cursor: pointer;
 }
 
 .popup-menu-item-icon {
