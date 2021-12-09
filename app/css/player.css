@@ -3,13 +3,9 @@
   align-items: stretch;
   flex-direction: row;
   justify-content: flex-start;
-
   margin: 32px 32px 0 32px;
-  border-radius: 20px;
-  /* Hide ugly border */
-
+  border-radius: 20px; /* Hide ugly border */
   box-sizing: border-box;
-
   background-color: var(--color-player-background);
   box-shadow: rgba(0, 0, 0, 0.192) 0px 22px 70px 4px;
 }
@@ -47,12 +43,10 @@
 .player-money {
   font-size: 90px;
   color: var(--color-player-text-1);
-  font-family: "plex-semibold-mono";
-  font-feature-settings: "zero" 1;
 }
 
 .player-seperator {
-  width: 2px;
+  width: 1px;
   background-color: var(--color-player-seperator);
 }
 
@@ -89,4 +83,10 @@
   text-align: center;
   font-size: 22px;
   color: inherit;
+}
+
+.player-dead {
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.25;
 }

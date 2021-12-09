@@ -1,73 +1,79 @@
-let startCapital = 1500
-let salary = 200
-let container = document.getElementById("player-container")
-let mode = "subtract"
+let startCapital = 1500;
+let salary = 200;
+let container = document.getElementById("player-container");
+let mode = "subtract";
 
-let audioCash = new Audio('app/audio/cash.mp3');
-let audioError = new Audio('app/audio/error.mp3');
+let audioCash = new Audio("app/audio/cash.mp3");
+let audioError = new Audio("app/audio/error.mp3");
+let audioClick = new Audio("app/audio/click.mp3");
+let audioPowerup = new Audio("app/audio/powerup.mp3");
 
 let players = [
   {
-    "name": "Torsten",
-    "capital": startCapital,
-    "lost": false
+    name: "Player 1",
+    capital: startCapital,
+    lost: false,
   },
   {
-    "name": "Reinhard",
-    "capital": startCapital,
-    "lost": false
+    name: "Player 2",
+    capital: startCapital,
+    lost: false,
   },
   {
-    "name": "Gudrun",
-    "capital": startCapital,
-    "lost": false
+    name: "Player 3",
+    capital: startCapital,
+    lost: false,
   },
   {
-    "name": "Frank",
-    "capital": startCapital,
-    "lost": false
+    name: "Player 4",
+    capital: startCapital,
+    lost: false,
   },
   {
-    "name": "Gail",
-    "capital": startCapital,
-    "lost": false
-  }
-]
+    name: "Player 5",
+    capital: startCapital,
+    lost: false,
+  },
+];
 
-updatePlayers()
+updatePlayers();
 
 function updatePlayers() {
-  document.querySelectorAll('.player').forEach(e => e.remove());
+  document.querySelectorAll(".player").forEach((e) => e.remove());
   for (let player of players) {
-    addPlayer(container, player)
+    addPlayer(container, player);
   }
 }
 
 function addPlayer(parent, player) {
+  let playerName = player["name"];
+  let playerCapital = player["capital"];
+  let playerAlive = player["lost"] ? "player-dead" : "";
+  let inRed =
+    playerCapital < 0
+      ? "var(--color-player-accent-5)"
+      : "var(--color-player-text-1)";
 
-  let playerName = player["name"]
-  let playerCapital = player["capital"]
-
-  let playerColor = getRandomColor()
+  let playerColor = getRandomColor();
   let element = `
-    <div class="player" id="${player}">
+    <div class="player ${playerAlive}" id="${player}">
       <div class="player-colorbox" style="background-color: var(${playerColor});"></div>
 
       <div class="player-info">
         <span class="player-name" style="color: var(${playerColor});">${playerName}</span><br>
-        <span class="player-money">${playerCapital}</span>
+        <span class="player-money" style="color: ${inRed}">${playerCapital}</span>
         <span class="player-monopoly-money-icon">M</span>
       </div>
 
       <div class="player-seperator"></div>
 
-      <div class="player-button">
+      <div class="player-button" onclick="giveUp('${playerName}')">
         <div class="player-button-icon">
           <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 16.6944 7.30558 20.5 12 20.5C16.6944 20.5 20.5 16.6944 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM15.4462 8.39705L15.5303 8.46967C15.7966 8.73594 15.8208 9.1526 15.6029 9.44621L15.5303 9.53033L13.061 12L15.5303 14.4697C15.7966 14.7359 15.8208 15.1526 15.6029 15.4462L15.5303 15.5303C15.2641 15.7966 14.8474 15.8208 14.5538 15.6029L14.4697 15.5303L12 13.061L9.53033 15.5303C9.26406 15.7966 8.8474 15.8208 8.55379 15.6029L8.46967 15.5303C8.2034 15.2641 8.1792 14.8474 8.39705 14.5538L8.46967 14.4697L10.939 12L8.46967 9.53033C8.2034 9.26406 8.1792 8.8474 8.39705 8.55379L8.46967 8.46967C8.73594 8.2034 9.1526 8.1792 9.44621 8.39705L9.53033 8.46967L12 10.939L14.4697 8.46967C14.7359 8.2034 15.1526 8.1792 15.4462 8.39705Z" fill="currentColor"/>
           </svg>
         </div>
-        <span class="player-button-text">Give Up</span>
+        <span class="player-button-text">More</span>
       </div>
 
       <div class="player-seperator"></div>
@@ -94,15 +100,16 @@ function addPlayer(parent, player) {
         <span class="player-button-text player-button-text-accent">Transaction</span>
       </div>
     </div>
-  `
+  `;
 
-  parent.insertAdjacentHTML('beforeend', element);
+  parent.insertAdjacentHTML("beforeend", element);
 
   function getRandomColor() {
-    return "--color-player-accent-" + randomIntFromInterval(2, 2)
+    return "--color-player-accent-" + randomIntFromInterval(2, 2);
 
-    function randomIntFromInterval(min, max) { // min and max included
-      return Math.floor(Math.random() * (max - min + 1) + min)
+    function randomIntFromInterval(min, max) {
+      // min and max included
+      return Math.floor(Math.random() * (max - min + 1) + min);
     }
   }
 }
@@ -110,80 +117,104 @@ function addPlayer(parent, player) {
 function addSalary(player) {
   let index = players.findIndex((element, index) => {
     if (element.name === player) {
-      return true
+      return true;
     }
-  })
-  players[index]["capital"] += salary
-  updatePlayers()
-  audioCash.play();
+  });
+  players[index]["capital"] += salary;
+  updatePlayers();
+  playSound(audioCash);
 }
 
 function openTransactionPopup(player) {
-
-  let popup = document.getElementById("id-popup-transaction")
-  let name = document.getElementById("id-popup-balance-text")
-  let switchSubtract = document.getElementById("id-popup-switch-subtract")
-  let switchAdd = document.getElementById("id-popup-switch-add")
-  let currentBalance = document.getElementById("id-popup-balance")
-  let buttonAccept = document.getElementById("id-popup-button-accept")
-  let textbox = document.getElementById("id-popup-textbox")
-  let modeSymbol = document.getElementById("popup-mode")
-
+  playSound(audioClick);
+  let popup = document.getElementById("id-popup-transaction");
+  let name = document.getElementById("id-popup-balance-text");
+  let switchSubtract = document.getElementById("id-popup-switch-subtract");
+  let switchAdd = document.getElementById("id-popup-switch-add");
+  let currentBalance = document.getElementById("id-popup-balance");
+  let buttonAccept = document.getElementById("id-popup-button-accept");
+  let textbox = document.getElementById("id-popup-textbox");
+  let modeSymbol = document.getElementById("popup-mode");
 
   let index = players.findIndex((element, index) => {
     if (element.name === player) {
-      return true
+      return true;
     }
-  })
+  });
 
-  currentBalance.innerHTML = players[index]["capital"]
+  currentBalance.innerHTML = players[index]["capital"];
 
   switchSubtract.onclick = () => {
-    switchAdd.classList.remove("popup-switch-option-selected")
-    switchSubtract.classList.add("popup-switch-option-selected")
-    mode = "subtract"
-    modeSymbol.innerHTML = "-"
-    modeSymbol.style.color = "var(--color-player-accent-5)"
+    playSound(audioClick);
+    switchAdd.classList.remove("popup-switch-option-selected");
+    switchSubtract.classList.add("popup-switch-option-selected");
+    mode = "subtract";
+    modeSymbol.innerHTML = "-";
+    modeSymbol.style.color = "var(--color-player-accent-5)";
   };
 
   switchAdd.onclick = () => {
-    switchAdd.classList.add("popup-switch-option-selected")
-    switchSubtract.classList.remove("popup-switch-option-selected")
-    mode = "add"
-    modeSymbol.innerHTML = "+"
-    modeSymbol.style.color = "var(--color-player-accent-7)"
+    playSound(audioClick);
+    switchAdd.classList.add("popup-switch-option-selected");
+    switchSubtract.classList.remove("popup-switch-option-selected");
+    mode = "add";
+    modeSymbol.innerHTML = "+";
+    modeSymbol.style.color = "var(--color-player-accent-7)";
   };
 
   buttonAccept.onclick = () => {
-
     if (!isNaN(parseInt(document.getElementById("id-popup-textbox").value))) {
       switch (mode) {
-        case "subtract": {
-          players[index]["capital"] -= parseInt(document.getElementById("id-popup-textbox").value)
-        } break
-        case "add": {
-          players[index]["capital"] += parseInt(document.getElementById("id-popup-textbox").value)
-        } break
+        case "subtract":
+          {
+            players[index]["capital"] -= parseInt(
+              document.getElementById("id-popup-textbox").value
+            );
+          }
+          break;
+        case "add":
+          {
+            players[index]["capital"] += parseInt(
+              document.getElementById("id-popup-textbox").value
+            );
+          }
+          break;
       }
-      audioCash.play();
-      updatePlayers()
-      closeTransactionPopup()
+      playSound(audioCash);
+      updatePlayers();
+      closeTransactionPopup(false);
     } else {
-      textbox.classList.add("shake-horizontal")
-      audioError.play();
+      textbox.classList.add("shake-horizontal");
+      playSound(audioError);
       textbox.addEventListener("webkitAnimationEnd", () => {
-        textbox.classList.remove("shake-horizontal")
-      })
+        textbox.classList.remove("shake-horizontal");
+      });
     }
-
   };
 
-  name.innerHTML = `${player}\'s Current Balance`
-  popup.style.display = "flex"
-
+  name.innerHTML = `${player}\'s Current Balance`;
+  popup.style.display = "flex";
 }
 
-function closeTransactionPopup() {
-  let popup = document.getElementById("id-popup-transaction")
-  popup.style.display = "none"
+function closeTransactionPopup(isSound) {
+  if (isSound) playSound(audioClick);
+  let popup = document.getElementById("id-popup-transaction");
+  popup.style.display = "none";
+}
+
+function giveUp(player) {
+  let index = players.findIndex((element, index) => {
+    if (element.name === player) {
+      return true;
+    }
+  });
+  players[index]["lost"] = true;
+  playSound(audioPowerup);
+  updatePlayers();
+}
+
+function playSound(sound) {
+  sound.pause();
+  sound.currentTime = 0;
+  sound.play();
 }

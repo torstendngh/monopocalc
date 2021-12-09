@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  z-index: 10;
   /* -webkit-animation: fade-in 0.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
   animation: fade-in 0.2s cubic-bezier(0.39, 0.575, 0.565, 1) both; */
 }
@@ -40,6 +40,7 @@
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
+  z-index: 20;
 
   /* -webkit-animation: slide-in-blurred-bottom 0.2s cubic-bezier(0.23, 1, 0.32, 1)
     both;
@@ -108,8 +109,6 @@
   font-size: 64px;
   color: var(--color-player-text-1);
   box-sizing: border-box;
-  font-family: "plex-semibold-mono";
-  font-feature-settings: "zero" 1;
 }
 
 .popup-textbox::placeholder {

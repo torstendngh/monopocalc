@@ -1,89 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <!-- Meta -->
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <!-- Meta -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Title -->
-  <title>Monopocalc</title>
+    <!-- Title -->
+    <title>Monopocalc</title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="/app/css/styles.css">
-  <link rel="stylesheet" href="/app/css/var.css">
-  <link rel="stylesheet" href="/app/css/fonts.css">
-  <link rel="stylesheet" href="/app/css/animations.css">
-  <link rel="stylesheet" href="/app/css/player.css">
-  <link rel="stylesheet" href="/app/css/popup.css">
-  <link rel="stylesheet" href="/app/css/options.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/app/css/styles.css" />
+    <link rel="stylesheet" href="/app/css/var.css" />
+    <link rel="stylesheet" href="/app/css/fonts.css" />
+    <link rel="stylesheet" href="/app/css/animations.css" />
+    <link rel="stylesheet" href="/app/css/player.css" />
+    <link rel="stylesheet" href="/app/css/popup.css" />
+    <link rel="stylesheet" href="/app/css/options.css" />
 
-  <!-- JS -->
-  <script defer src="/app/js/main.js"></script>
-</head>
-<body>
-
-  <div id="option-open">
-    <div class="option-chevron">
-      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M19.7036 12L11.2125 3.27302C10.9236 2.97614 10.9301 2.50131 11.227 2.21246C11.5239 1.9236 11.9987 1.93011 12.2875 2.22698L21.2875 11.477C21.5708 11.7681 21.5708 12.2319 21.2875 12.523L12.2875 21.773C11.9987 22.0699 11.5239 22.0764 11.227 21.7875C10.9301 21.4987 10.9236 21.0239 11.2125 20.727L19.7036 12Z"
-          fill="currentColor" />
-      </svg>
-    </div>
-
-  </div>
-
-  <div id="player-container">
-
-    <!-- PLAYERS -->
-
-    <!-- POPUP -->
-    <div id="id-popup-transaction" class="popup-blur" style="display: none;">
-      <div class="popup-container">
-        <div class="popup-close" onclick="closeTransactionPopup()">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M4.39705 4.55379L4.46967 4.46967C4.73594 4.2034 5.1526 4.1792 5.44621 4.39705L5.53033 4.46967L12 10.939L18.4697 4.46967C18.7626 4.17678 19.2374 4.17678 19.5303 4.46967C19.8232 4.76256 19.8232 5.23744 19.5303 5.53033L13.061 12L19.5303 18.4697C19.7966 18.7359 19.8208 19.1526 19.6029 19.4462L19.5303 19.5303C19.2641 19.7966 18.8474 19.8208 18.5538 19.6029L18.4697 19.5303L12 13.061L5.53033 19.5303C5.23744 19.8232 4.76256 19.8232 4.46967 19.5303C4.17678 19.2374 4.17678 18.7626 4.46967 18.4697L10.939 12L4.46967 5.53033C4.2034 5.26406 4.1792 4.8474 4.39705 4.55379L4.46967 4.46967L4.39705 4.55379Z"
-              fill="currentColor" />
-          </svg>
-        </div>
-
-        <span id="id-popup-balance-text" class="popup-balance-text">Current Balance</span>
-        <div class="popup-balance-container">
-
-          <span id="id-popup-balance" class="player-money">450</span>
-          <span class="player-monopoly-money-icon">M</span>
-        </div>
-        <div class="popup-switch">
-          <div id="id-popup-switch-subtract" class="popup-switch-option popup-switch-option-selected">
-            Pay
-          </div>
-          <div id="id-popup-switch-add" class="popup-switch-option">
-            Receive
-          </div>
-        </div>
-        <div class="popup-textbox-container">
-          <span id="popup-mode" style="font-size: 64px; color: var(--color-player-text-2); padding: 8px; font-family: 'plex-semibold-mono';">-</span>
-          <input id="id-popup-textbox" type="number" class="popup-textbox" placeholder="0" min="0" max="100000">
-        </div>
-
-        <div id="id-popup-button-accept" class="popup-button">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 16.6944 7.30558 20.5 12 20.5C16.6944 20.5 20.5 16.6944 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM10.75 13.4393L15.2197 8.96967C15.5126 8.67678 15.9874 8.67678 16.2803 8.96967C16.5466 9.23594 16.5708 9.6526 16.3529 9.94621L16.2803 10.0303L11.2803 15.0303C11.0141 15.2966 10.5974 15.3208 10.3038 15.1029L10.2197 15.0303L7.71967 12.5303C7.42678 12.2374 7.42678 11.7626 7.71967 11.4697C7.98594 11.2034 8.4026 11.1792 8.69621 11.3971L8.78033 11.4697L10.75 13.4393L15.2197 8.96967L10.75 13.4393Z"
-              fill="currentColor" />
-          </svg>
-          <span style="padding-left: 8px; vertical-align: middle;">
-            Accept
-          </span>
-        </div>
-
+    <!-- JS -->
+    <script defer src="/app/js/main.js"></script>
+  </head>
+  <body>
+    <div id="option-open">
+      <div class="option-chevron">
+        <svg
+          width="44"
+          height="44"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19.7036 12L11.2125 3.27302C10.9236 2.97614 10.9301 2.50131 11.227 2.21246C11.5239 1.9236 11.9987 1.93011 12.2875 2.22698L21.2875 11.477C21.5708 11.7681 21.5708 12.2319 21.2875 12.523L12.2875 21.773C11.9987 22.0699 11.5239 22.0764 11.227 21.7875C10.9301 21.4987 10.9236 21.0239 11.2125 20.727L19.7036 12Z"
+            fill="currentColor"
+          />
+        </svg>
       </div>
     </div>
-  </div>
 
+    <div id="player-container">
+      <!-- PLAYERS -->
 
+      <!-- POPUP -->
+      <div id="id-popup-transaction" class="popup-blur" style="display: none">
+        <div class="popup-container">
+          <div class="popup-close" onclick="closeTransactionPopup(true)">
+            <svg
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4.39705 4.55379L4.46967 4.46967C4.73594 4.2034 5.1526 4.1792 5.44621 4.39705L5.53033 4.46967L12 10.939L18.4697 4.46967C18.7626 4.17678 19.2374 4.17678 19.5303 4.46967C19.8232 4.76256 19.8232 5.23744 19.5303 5.53033L13.061 12L19.5303 18.4697C19.7966 18.7359 19.8208 19.1526 19.6029 19.4462L19.5303 19.5303C19.2641 19.7966 18.8474 19.8208 18.5538 19.6029L18.4697 19.5303L12 13.061L5.53033 19.5303C5.23744 19.8232 4.76256 19.8232 4.46967 19.5303C4.17678 19.2374 4.17678 18.7626 4.46967 18.4697L10.939 12L4.46967 5.53033C4.2034 5.26406 4.1792 4.8474 4.39705 4.55379L4.46967 4.46967L4.39705 4.55379Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
 
-</body>
+          <span id="id-popup-balance-text" class="popup-balance-text"
+            >Current Balance</span
+          >
+          <div class="popup-balance-container">
+            <span id="id-popup-balance" class="player-money">450</span>
+            <span class="player-monopoly-money-icon">M</span>
+          </div>
+          <div class="popup-switch">
+            <div
+              id="id-popup-switch-subtract"
+              class="popup-switch-option popup-switch-option-selected"
+            >
+              Pay
+            </div>
+            <div id="id-popup-switch-add" class="popup-switch-option">
+              Receive
+            </div>
+          </div>
+          <div class="popup-textbox-container">
+            <span
+              id="popup-mode"
+              style="
+                font-size: 64px;
+                color: var(--color-player-text-2);
+                padding: 8px;
+                font-family: 'plex-semibold-mono';
+              "
+              >-</span
+            >
+            <input
+              id="id-popup-textbox"
+              type="number"
+              class="popup-textbox"
+              placeholder="0"
+              min="0"
+              max="100000"
+            />
+          </div>
+
+          <div id="id-popup-button-accept" class="popup-button">
+            <svg
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 16.6944 7.30558 20.5 12 20.5C16.6944 20.5 20.5 16.6944 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM10.75 13.4393L15.2197 8.96967C15.5126 8.67678 15.9874 8.67678 16.2803 8.96967C16.5466 9.23594 16.5708 9.6526 16.3529 9.94621L16.2803 10.0303L11.2803 15.0303C11.0141 15.2966 10.5974 15.3208 10.3038 15.1029L10.2197 15.0303L7.71967 12.5303C7.42678 12.2374 7.42678 11.7626 7.71967 11.4697C7.98594 11.2034 8.4026 11.1792 8.69621 11.3971L8.78033 11.4697L10.75 13.4393L15.2197 8.96967L10.75 13.4393Z"
+                fill="currentColor"
+              />
+            </svg>
+            <span style="padding-left: 8px; vertical-align: middle">
+              Accept
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
