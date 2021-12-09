@@ -1,7 +1,10 @@
-let startCapital = 1500;
-let salary = 200;
-let container = document.getElementById("player-container");
-let mode = "subtract";
+// INIT ----------------------------------------------------------------------------------------------------------------
+
+let defaultStartCapital = 1500;
+let defaultSalary = 200;
+
+let elementPlayerContainer = document.getElementById("player-container");
+let transactionMode = "pay"; // default
 
 let audioCash = new Audio("app/audio/cash.mp3");
 let audioError = new Audio("app/audio/error.mp3");
@@ -17,35 +20,35 @@ try {
   players = [
     {
       name: "Player 1",
-      capital: startCapital,
+      capital: defaultStartCapital,
       token: "hat",
       capitalchange: false,
       lost: false,
     },
     {
       name: "Player 2",
-      capital: startCapital,
+      capital: defaultStartCapital,
       token: "car",
       capitalchange: false,
       lost: false,
     },
     {
       name: "Player 3",
-      capital: startCapital,
+      capital: defaultStartCapital,
       token: "ship",
       capitalchange: false,
       lost: false,
     },
     {
       name: "Player 4",
-      capital: startCapital,
+      capital: defaultStartCapital,
       token: "thimble",
       capitalchange: false,
       lost: false,
     },
     {
       name: "Player 5",
-      capital: startCapital,
+      capital: defaultStartCapital,
       token: "dog",
       capitalchange: false,
       lost: false,
@@ -55,36 +58,168 @@ try {
 }
 
 updatePlayers();
+
+// Stop swipe down reload on touch devices
 window.onbeforeunload = function () {
   return false;
 };
+
+// TOOLS ---------------------------------------------------------------------------------------------------------------
+
+// Stop and start sound for quicker repeat time
+function playSound(sound) {
+  sound.pause();
+  sound.currentTime = 0;
+  sound.play();
+}
+
+// OPTIONS -------------------------------------------------------------------------------------------------------------
 
 function resetGame() {
   playSound(audioClick);
   playSound(audioReset);
   for (let player of players) {
-    player["capital"] = startCapital
+    player["capital"] = defaultStartCapital
     player["lost"] = false
     player["capitalchange"] = false
   }
   updatePlayers();
 }
 
+function toggleFullscreen() {
+  playSound(audioClick);
+  if (!document.fullscreenElement &&
+    !document.mozFullScreenElement && !document.webkitFullscreenElement) {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) {
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) {
+      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+  } else {
+    if (document.cancelFullScreen) {
+      document.cancelFullScreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitCancelFullScreen) {
+      document.webkitCancelFullScreen();
+    }
+  }
+}
+
+// WINDOWS -------------------------------------------------------------------------------------------------------------
+
+function openOptionsPopup() {
+  playSound(audioClick);
+  let popup = document.getElementById("id-popup-options");
+  popup.style.display = "flex";
+}
+
+function closeOptionsPopup() {
+  playSound(audioClick);
+  let popup = document.getElementById("id-popup-options");
+  popup.style.display = "none";
+}
+
+function openTransactionPopup(player) {
+  playSound(audioClick);
+  let popup = document.getElementById("id-popup-transaction");
+  let name = document.getElementById("id-popup-balance-text");
+  let switchSubtract = document.getElementById("id-popup-switch-subtract");
+  let switchAdd = document.getElementById("id-popup-switch-add");
+  let currentBalance = document.getElementById("id-popup-balance");
+  let buttonAccept = document.getElementById("id-popup-button-accept");
+  let textbox = document.getElementById("id-popup-textbox");
+  let transactionMode = document.getElementById("popup-transactionMode");
+
+  let index = players.findIndex((element, index) => {
+    if (element.name === player) {
+      return true;
+    }
+  });
+
+  currentBalance.innerHTML = players[index]["capital"];
+
+  // PAY switch option
+  switchSubtract.onclick = () => {
+    playSound(audioClick);
+    switchAdd.classList.remove("popup-switch-option-selected");
+    switchSubtract.classList.add("popup-switch-option-selected");
+    transactionMode = "pay";
+    transactionMode.innerHTML = "-";
+    transactionMode.style.color = "var(--color-player-accent-5)";
+  };
+
+  // RECEIVE switch option
+  switchAdd.onclick = () => {
+    playSound(audioClick);
+    switchAdd.classList.add("popup-switch-option-selected");
+    switchSubtract.classList.remove("popup-switch-option-selected");
+    transactionMode = "receive";
+    transactionMode.innerHTML = "+";
+    transactionMode.style.color = "var(--color-player-accent-7)";
+  };
+
+  // Accept button
+  buttonAccept.onclick = () => {
+    if (!isNaN(parseInt(document.getElementById("id-popup-textbox").value))) {
+      switch (transactionMode) {
+        case "pay":
+          {
+            players[index]["capital"] -= parseInt(
+              document.getElementById("id-popup-textbox").value
+            );
+          }
+          break;
+        case "receive":
+          {
+            players[index]["capital"] += parseInt(
+              document.getElementById("id-popup-textbox").value
+            );
+          }
+          break;
+      }
+      players[index]["capitalchange"] = true;
+      playSound(audioCash);
+      updatePlayers();
+      closeTransactionPopup(false);
+    } else {
+      textbox.classList.add("animation-shake");
+      playSound(audioError);
+      textbox.addEventListener("webkitAnimationEnd", () => {
+        textbox.classList.remove("animation-shake");
+      });
+    }
+  };
+
+  name.innerHTML = `${player}\'s Current Balance`;
+  popup.style.display = "flex";
+}
+
+function closeTransactionPopup(isSound) {
+  if (isSound) playSound(audioClick);
+  let popup = document.getElementById("id-popup-transaction");
+  popup.style.display = "none";
+}
+
+// PLAYERS -------------------------------------------------------------------------------------------------------------
+
 function updatePlayers() {
   document.querySelectorAll(".player").forEach((e) => e.remove());
   for (let player of players) {
-    addPlayer(container, player);
+    addPlayerToList(elementPlayerContainer, player);
   }
   localStorage.players = JSON.stringify(players)
 }
 
-function addPlayer(parent, player) {
-  let playerName = player["lost"] ? "👻 " + player["name"] : player["name"];
+function addPlayerToList(parent, player) {
+  let playerName = player["lost"] ? "👻 " + player["name"] : player["name"]; // Add ghost when lost
   let playerCapital = player["capital"];
   let playerToken = player["token"];
   let playerAlive = player["lost"] ? "player-dead" : "";
-  let playerWiggle = player["capitalchange"] ? "jello-horizontal" : "";
-  let playerAddMoney = player["capitalchange"] ? "money-add" : "";
+  let playerWiggle = player["capitalchange"] ? "animation-jello" : "";
+  let playerAddMoney = player["capitalchange"] ? "animation-zoom" : "";
   let inRed =
     playerCapital < 0
       ? "var(--color-player-accent-5)"
@@ -171,88 +306,10 @@ function addSalary(player) {
       return true;
     }
   });
-  players[index]["capital"] += salary;
+  players[index]["capital"] += defaultSalary;
   players[index]["capitalchange"] = true;
   updatePlayers();
   playSound(audioCash);
-}
-
-function openTransactionPopup(player) {
-  playSound(audioClick);
-  let popup = document.getElementById("id-popup-transaction");
-  let name = document.getElementById("id-popup-balance-text");
-  let switchSubtract = document.getElementById("id-popup-switch-subtract");
-  let switchAdd = document.getElementById("id-popup-switch-add");
-  let currentBalance = document.getElementById("id-popup-balance");
-  let buttonAccept = document.getElementById("id-popup-button-accept");
-  let textbox = document.getElementById("id-popup-textbox");
-  let modeSymbol = document.getElementById("popup-mode");
-
-  let index = players.findIndex((element, index) => {
-    if (element.name === player) {
-      return true;
-    }
-  });
-
-  currentBalance.innerHTML = players[index]["capital"];
-
-  switchSubtract.onclick = () => {
-    playSound(audioClick);
-    switchAdd.classList.remove("popup-switch-option-selected");
-    switchSubtract.classList.add("popup-switch-option-selected");
-    mode = "subtract";
-    modeSymbol.innerHTML = "-";
-    modeSymbol.style.color = "var(--color-player-accent-5)";
-  };
-
-  switchAdd.onclick = () => {
-    playSound(audioClick);
-    switchAdd.classList.add("popup-switch-option-selected");
-    switchSubtract.classList.remove("popup-switch-option-selected");
-    mode = "add";
-    modeSymbol.innerHTML = "+";
-    modeSymbol.style.color = "var(--color-player-accent-7)";
-  };
-
-  buttonAccept.onclick = () => {
-    if (!isNaN(parseInt(document.getElementById("id-popup-textbox").value))) {
-      switch (mode) {
-        case "subtract":
-          {
-            players[index]["capital"] -= parseInt(
-              document.getElementById("id-popup-textbox").value
-            );
-          }
-          break;
-        case "add":
-          {
-            players[index]["capital"] += parseInt(
-              document.getElementById("id-popup-textbox").value
-            );
-          }
-          break;
-      }
-      players[index]["capitalchange"] = true;
-      playSound(audioCash);
-      updatePlayers();
-      closeTransactionPopup(false);
-    } else {
-      textbox.classList.add("shake-horizontal");
-      playSound(audioError);
-      textbox.addEventListener("webkitAnimationEnd", () => {
-        textbox.classList.remove("shake-horizontal");
-      });
-    }
-  };
-
-  name.innerHTML = `${player}\'s Current Balance`;
-  popup.style.display = "flex";
-}
-
-function closeTransactionPopup(isSound) {
-  if (isSound) playSound(audioClick);
-  let popup = document.getElementById("id-popup-transaction");
-  popup.style.display = "none";
 }
 
 function giveUp(player) {
@@ -264,45 +321,4 @@ function giveUp(player) {
   players[index]["lost"] = true;
   playSound(audioPowerup);
   updatePlayers();
-}
-
-function playSound(sound) {
-  sound.pause();
-  sound.currentTime = 0;
-  sound.play();
-}
-
-function openOptionsPopup() {
-  playSound(audioClick);
-  let popup = document.getElementById("id-popup-options");
-
-  popup.style.display = "flex";
-}
-
-function closeOptionsPopup() {
-  playSound(audioClick);
-  let popup = document.getElementById("id-popup-options");
-  popup.style.display = "none";
-}
-
-function toggleFullscreen() {
-  playSound(audioClick);
-  if (!document.fullscreenElement &&
-    !document.mozFullScreenElement && !document.webkitFullscreenElement) {
-    if (document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen();
-    } else if (document.documentElement.mozRequestFullScreen) {
-      document.documentElement.mozRequestFullScreen();
-    } else if (document.documentElement.webkitRequestFullscreen) {
-      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-    }
-  } else {
-    if (document.cancelFullScreen) {
-      document.cancelFullScreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.webkitCancelFullScreen) {
-      document.webkitCancelFullScreen();
-    }
-  }
 }
