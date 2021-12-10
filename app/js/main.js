@@ -12,49 +12,70 @@ let audioClick = new Audio("app/audio/click.mp3");
 let audioPowerup = new Audio("app/audio/powerup.mp3");
 let audioReset = new Audio("app/audio/reset.mp3");
 
-let players
+let players;
 
 try {
   players = JSON.parse(localStorage.players);
-} catch(e) {
+} catch (e) {
   players = [
     {
-      name: "Player 1",
-      capital: defaultStartCapital,
-      token: "hat",
-      capitalchange: false,
-      lost: false,
-    },
-    {
-      name: "Player 2",
-      capital: defaultStartCapital,
-      token: "car",
-      capitalchange: false,
-      lost: false,
-    },
-    {
-      name: "Player 3",
-      capital: defaultStartCapital,
-      token: "ship",
-      capitalchange: false,
-      lost: false,
-    },
-    {
-      name: "Player 4",
+      name: "Thimble",
       capital: defaultStartCapital,
       token: "thimble",
       capitalchange: false,
       lost: false,
     },
     {
-      name: "Player 5",
+      name: "Ship",
+      capital: defaultStartCapital,
+      token: "ship",
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Iron",
+      capital: defaultStartCapital,
+      token: "iron",
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Hat",
+      capital: defaultStartCapital,
+      token: "hat",
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Dog",
       capital: defaultStartCapital,
       token: "dog",
       capitalchange: false,
       lost: false,
     },
+    {
+      name: "Car",
+      capital: defaultStartCapital,
+      token: "car",
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Boot",
+      capital: defaultStartCapital,
+      token: "boot",
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Barrow",
+      capital: defaultStartCapital,
+      token: "barrow",
+      capitalchange: false,
+      lost: false,
+    },
   ];
-  localStorage.players = JSON.stringify(players)
+  localStorage.players = JSON.stringify(players);
 }
 
 updatePlayers();
@@ -79,23 +100,28 @@ function resetGame() {
   playSound(audioClick);
   playSound(audioReset);
   for (let player of players) {
-    player["capital"] = defaultStartCapital
-    player["lost"] = false
-    player["capitalchange"] = false
+    player["capital"] = defaultStartCapital;
+    player["lost"] = false;
+    player["capitalchange"] = false;
   }
   updatePlayers();
 }
 
 function toggleFullscreen() {
   playSound(audioClick);
-  if (!document.fullscreenElement &&
-    !document.mozFullScreenElement && !document.webkitFullscreenElement) {
+  if (
+    !document.fullscreenElement &&
+    !document.mozFullScreenElement &&
+    !document.webkitFullscreenElement
+  ) {
     if (document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen();
     } else if (document.documentElement.mozRequestFullScreen) {
       document.documentElement.mozRequestFullScreen();
     } else if (document.documentElement.webkitRequestFullscreen) {
-      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      document.documentElement.webkitRequestFullscreen(
+        Element.ALLOW_KEYBOARD_INPUT
+      );
     }
   } else {
     if (document.cancelFullScreen) {
@@ -131,7 +157,7 @@ function openTransactionPopup(player) {
   let currentBalance = document.getElementById("id-popup-balance");
   let buttonAccept = document.getElementById("id-popup-button-accept");
   let textbox = document.getElementById("id-popup-textbox");
-  let transactionMode = document.getElementById("popup-transactionMode");
+  let popupMode = document.getElementById("popup-mode");
 
   let index = players.findIndex((element, index) => {
     if (element.name === player) {
@@ -147,8 +173,8 @@ function openTransactionPopup(player) {
     switchAdd.classList.remove("popup-switch-option-selected");
     switchSubtract.classList.add("popup-switch-option-selected");
     transactionMode = "pay";
-    transactionMode.innerHTML = "-";
-    transactionMode.style.color = "var(--color-player-accent-5)";
+    popupMode.innerHTML = "-";
+    popupMode.style.color = "var(--color-player-accent-5)";
   };
 
   // RECEIVE switch option
@@ -157,8 +183,8 @@ function openTransactionPopup(player) {
     switchAdd.classList.add("popup-switch-option-selected");
     switchSubtract.classList.remove("popup-switch-option-selected");
     transactionMode = "receive";
-    transactionMode.innerHTML = "+";
-    transactionMode.style.color = "var(--color-player-accent-7)";
+    popupMode.innerHTML = "+";
+    popupMode.style.color = "var(--color-player-accent-7)";
   };
 
   // Accept button
@@ -210,7 +236,7 @@ function updatePlayers() {
   for (let player of players) {
     addPlayerToList(elementPlayerContainer, player);
   }
-  localStorage.players = JSON.stringify(players)
+  localStorage.players = JSON.stringify(players);
 }
 
 function addPlayerToList(parent, player) {
@@ -225,7 +251,7 @@ function addPlayerToList(parent, player) {
       ? "var(--color-player-accent-5)"
       : "var(--color-player-text-1)";
 
-  player["capitalchange"] = false
+  player["capitalchange"] = false;
   let playerColor = getRandomColor();
   let element = `
     <div class="player ${playerAlive}" id="${player}">
