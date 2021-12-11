@@ -11,6 +11,8 @@ let audioError = new Audio("app/audio/error.mp3");
 let audioClick = new Audio("app/audio/click.mp3");
 let audioPowerup = new Audio("app/audio/powerup.mp3");
 let audioReset = new Audio("app/audio/reset.mp3");
+let audioLoose = new Audio("app/audio/loose.mp3");
+let audioWin = new Audio("app/audio/win.mp3");
 
 let players;
 
@@ -22,6 +24,7 @@ try {
       name: "Thimble",
       capital: defaultStartCapital,
       token: "thimble",
+      color: 8,
       capitalchange: false,
       lost: false,
     },
@@ -29,6 +32,7 @@ try {
       name: "Ship",
       capital: defaultStartCapital,
       token: "ship",
+      color: 7,
       capitalchange: false,
       lost: false,
     },
@@ -36,6 +40,7 @@ try {
       name: "Iron",
       capital: defaultStartCapital,
       token: "iron",
+      color: 6,
       capitalchange: false,
       lost: false,
     },
@@ -43,6 +48,7 @@ try {
       name: "Hat",
       capital: defaultStartCapital,
       token: "hat",
+      color: 5,
       capitalchange: false,
       lost: false,
     },
@@ -50,6 +56,7 @@ try {
       name: "Dog",
       capital: defaultStartCapital,
       token: "dog",
+      color: 4,
       capitalchange: false,
       lost: false,
     },
@@ -57,6 +64,7 @@ try {
       name: "Car",
       capital: defaultStartCapital,
       token: "car",
+      color: 3,
       capitalchange: false,
       lost: false,
     },
@@ -64,6 +72,7 @@ try {
       name: "Boot",
       capital: defaultStartCapital,
       token: "boot",
+      color: 2,
       capitalchange: false,
       lost: false,
     },
@@ -71,6 +80,7 @@ try {
       name: "Barrow",
       capital: defaultStartCapital,
       token: "barrow",
+      color: 1,
       capitalchange: false,
       lost: false,
     },
@@ -81,9 +91,9 @@ try {
 updatePlayers();
 
 // Stop swipe down reload on touch devices
-window.onbeforeunload = function () {
-  return false;
-};
+// window.onbeforeunload = function () {
+//   return false;
+// };
 
 // TOOLS ---------------------------------------------------------------------------------------------------------------
 
@@ -92,6 +102,15 @@ function playSound(sound) {
   sound.pause();
   sound.currentTime = 0;
   sound.play();
+}
+
+function getRandomColor() {
+  return "var(--color-player-accent-" + randomIntFromInterval(1, 8) + ")";
+
+  function randomIntFromInterval(min, max) {
+    // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
 }
 
 // OPTIONS -------------------------------------------------------------------------------------------------------------
@@ -145,6 +164,46 @@ function openOptionsPopup() {
 function closeOptionsPopup() {
   playSound(audioClick);
   let popup = document.getElementById("id-popup-options");
+  popup.style.display = "none";
+}
+
+function openPlayerOptionsPopup(player) {
+  playSound(audioClick);
+  let popup = document.getElementById("id-popup-player-options");
+  let buttonChangeToken = document.getElementById("id-popup-player-options-change-token")
+  let buttonChangeName = document.getElementById("id-popup-player-options-change-name")
+  let buttonRemovePlayer = document.getElementById("id-popup-player-options-remove-player")
+  let buttonGiveUp = document.getElementById("id-popup-player-options-give-up")
+
+  let index = players.findIndex((element, index) => {
+    if (element.name === player) {
+      return true;
+    }
+  });
+
+  buttonGiveUp.onclick = () => {
+    giveUp(player)
+    closePlayerOptionsPopup()
+  };
+
+  buttonRemovePlayer.onclick = () => {
+    players.splice(index, 1)
+    updatePlayers()
+    closePlayerOptionsPopup()
+  };
+
+  buttonChangeToken.onclick = () => {
+    closeOptionsPopup()
+    closePlayerOptionsPopup()
+    openPlayerEditPopup("edit", player)
+  };
+
+  popup.style.display = "flex";
+}
+
+function closePlayerOptionsPopup() {
+  playSound(audioClick);
+  let popup = document.getElementById("id-popup-player-options");
   popup.style.display = "none";
 }
 
@@ -229,6 +288,72 @@ function closeTransactionPopup(isSound) {
   popup.style.display = "none";
 }
 
+function openPlayerEditPopup(mode, player) {
+  closeOptionsPopup()
+  closePlayerOptionsPopup()
+  playSound(audioClick);
+  let popup = document.getElementById("id-popup-player-create");
+  let nameBox = document.getElementById("id-popup-create-name")
+  let colorButton = document.getElementById("id-popup-create-color")
+  let playerToken
+
+  try {
+    playerToken = players[index]["token"]
+  } catch(e) {
+    playerToken = "thimble"
+  }
+
+  let playerColor
+
+  let index = players.findIndex((element, index) => {
+    if (element.name === player) {
+      return true;
+    }
+  });
+
+  if (mode == "edit") {
+    nameBox.value = players[index]["name"]
+    playerColor = "var(--color-player-accent-" + players[index]["color"] + ")"
+
+    selectToken(players[index]["token"])
+    setColors()
+  } else {
+    nameBox.value = ""
+    playerColor = getRandomColor()
+
+    selectToken("thimble")
+    setColors()
+  }
+
+  colorButton.onclick = () => {
+    playSound(audioClick);
+    playerColor = getRandomColor()
+    selectToken(playerToken)
+    setColors()
+  };
+
+  function setColors() {
+    nameBox.style.color = playerColor
+    colorButton.style.backgroundColor = playerColor
+
+  }
+
+  function selectToken(token) {
+    document.querySelectorAll(".select-token").forEach(element => {
+      element.style.border = "8px solid transparent"
+    });
+    document.getElementById("id-select-token-" + token).style.border = "8px solid " + playerColor
+  }
+
+  popup.style.display = "flex";
+}
+
+function closePlayerEditPopup() {
+  playSound(audioClick);
+  let popup = document.getElementById("id-popup-player-create");
+  popup.style.display = "none";
+}
+
 // PLAYERS -------------------------------------------------------------------------------------------------------------
 
 function updatePlayers() {
@@ -250,9 +375,9 @@ function addPlayerToList(parent, player) {
     playerCapital < 0
       ? "var(--color-player-accent-5)"
       : "var(--color-player-text-1)";
+  let playerColor = "--color-player-accent-" + player["color"]
 
   player["capitalchange"] = false;
-  let playerColor = getRandomColor();
   let element = `
     <div class="player ${playerAlive}" id="${player}">
       <div class="player-colorbox" style="background-color: var(${playerColor});"></div>
@@ -263,9 +388,9 @@ function addPlayerToList(parent, player) {
         background-position: center;
         background-image: url('/app/images/pieces/${playerToken}.png');
         align-self: center;
-        height: 120px;
-        width: 200px;
-        margin-left: 16px;
+        height: 160px;
+        width: 160px;
+        margin: 16px 0 16px 32px;
       "></div>
 
       <div class="player-info">
@@ -279,7 +404,7 @@ function addPlayerToList(parent, player) {
 
       <div class="player-seperator"></div>
 
-      <div class="player-button" onclick="giveUp('${playerName}')">
+      <div class="player-button" onclick="openPlayerOptionsPopup('${playerName}')">
         <div class="player-button-icon">
           <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M7.75 12C7.75 12.9665 6.9665 13.75 6 13.75C5.0335 13.75 4.25 12.9665 4.25 12C4.25 11.0335 5.0335 10.25 6 10.25C6.9665 10.25 7.75 11.0335 7.75 12Z" fill="currentColor"/>
@@ -316,14 +441,7 @@ function addPlayerToList(parent, player) {
 
   parent.insertAdjacentHTML("beforeend", element);
 
-  function getRandomColor() {
-    return "--color-player-accent-" + randomIntFromInterval(2, 2);
 
-    function randomIntFromInterval(min, max) {
-      // min and max included
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-  }
 }
 
 function addSalary(player) {
@@ -345,6 +463,7 @@ function giveUp(player) {
     }
   });
   players[index]["lost"] = true;
-  playSound(audioPowerup);
+  players.push(players.splice(index, 1)[0]);
+  playSound(audioLoose);
   updatePlayers();
 }

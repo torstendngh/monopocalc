@@ -70,8 +70,3 @@ body {
   background: var(--color-switch-background);
   border-radius: 100px;
 }
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-player-background);
-}

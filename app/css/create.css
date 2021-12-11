@@ -1,0 +1,115 @@
+.popup-container-create {
+  background-color: var(--color-popup-background);
+  padding: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.192) 0px 22px 70px 4px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  z-index: 20;
+}
+
+.popup-create-name-textbox {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: var(--color-textbox-background);
+  border: solid 2px var(--color-textbox-border);
+  border-radius: 16px;
+  outline: none;
+  align-self: stretch;
+  flex: 1;
+  text-align: center;
+  color: var(--color-player-text-1);
+  max-width: 500px;
+  padding: 16px;
+
+  font-size: 64px;
+  box-sizing: border-box;
+
+  margin-right: 16px;
+}
+
+.popup-create-name-textbox::placeholder {
+  color: var(--color-player-text-2);
+}
+
+.popup-create-name-info {
+  color: var(--color-player-text-2);
+  font-size: 22px;
+  margin-top: 64px;
+  margin-bottom: 16px;
+}
+
+.popup-create-color-button {
+  color: white;
+  background-color: var(--color-textbox-border);
+  padding: 16px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.select-token {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  height: 200px;
+  width: 200px;
+  margin-right: 16px;
+  border: 8px solid transparent;
+  padding: 16px;
+  border-radius: 16px;
+  background-origin: content-box;
+
+  display: inline-block;
+}
+
+.popup-create-token-container {
+  width: 800px;
+
+  overflow: auto;
+  white-space: nowrap;
+  padding-left: 16px;
+  padding-bottom: calc(16px + 17px);
+
+  overflow: hidden;
+  margin-bottom: 17px;
+}
+
+.popup-create-token-container:hover {
+  overflow: auto;
+  padding-bottom: 16px;
+}
+
+#id-select-token-thimble {
+  background-image: url("/app/images/pieces/thimble.png");
+}
+#id-select-token-ship {
+  background-image: url("/app/images/pieces/ship.png");
+}
+#id-select-token-iron {
+  background-image: url("/app/images/pieces/iron.png");
+}
+#id-select-token-hat {
+  background-image: url("/app/images/pieces/hat.png");
+}
+#id-select-token-dog {
+  background-image: url("/app/images/pieces/dog.png");
+}
+#id-select-token-car {
+  background-image: url("/app/images/pieces/car.png");
+}
+#id-select-token-boot {
+  background-image: url("/app/images/pieces/boot.png");
+}
+#id-select-token-barrow {
+  background-image: url("/app/images/pieces/hat.png");
+}
