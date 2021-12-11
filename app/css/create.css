@@ -78,19 +78,13 @@
   overflow: auto;
   white-space: nowrap;
   padding-left: 16px;
-  padding-bottom: calc(16px + 17px);
-
-  overflow: hidden;
-  margin-bottom: 17px;
-}
-
-.popup-create-token-container:hover {
-  overflow: auto;
   padding-bottom: 16px;
+
+  margin-bottom: 16px;
 }
 
 #id-select-token-thimble {
-  background-image: url("../..//app/images/pieces/thimble.png");
+  background-image: url("../../app/images/pieces/thimble.png");
 }
 #id-select-token-ship {
   background-image: url("../../app/images/pieces/ship.png");
@@ -112,4 +106,16 @@
 }
 #id-select-token-barrow {
   background-image: url("../../app/images/pieces/barrow.png");
+}
+#id-select-token-cat {
+  background-image: url("../../app/images/pieces/cat.png");
+}
+#id-select-token-duck {
+  background-image: url("../../app/images/pieces/duck.png");
+}
+#id-select-token-penguin {
+  background-image: url("../../app/images/pieces/penguin.png");
+}
+#id-select-token-trex {
+  background-image: url("../../app/images/pieces/trex.png");
 }

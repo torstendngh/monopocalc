@@ -335,12 +335,14 @@ function openPlayerEditPopup(mode, player) {
   closeOptionsPopup()
   closePlayerOptionsPopup()
   playSound(audioClick);
+
   let popup = document.getElementById("id-popup-player-create");
   let nameBox = document.getElementById("id-popup-create-name")
   let colorButton = document.getElementById("id-popup-create-color")
-
-  let playerToken
-  let playerColor
+  let presetTokens = ["thimble", "ship" , "iron", "hat", "dog", "car", "boot", "barrow", "duck", "trex", "cat", "penguin"]
+  let tempToken
+  let tempName
+  let tempColor
 
   let index = players.findIndex((element, index) => {
     if (element.name === player) {
@@ -348,54 +350,76 @@ function openPlayerEditPopup(mode, player) {
     }
   });
 
-  try {
-    playerToken = players[index]["token"]
-  } catch(e) {
-    playerToken = "thimble"
-  }
-
   if (mode == "edit") {
-    nameBox.value = players[index]["name"]
-    playerColor = "var(--color-player-accent-" + players[index]["color"] + ")"
-
-    selectToken(players[index]["token"])
-    setColors()
-    scrollToToken(playerToken)
+    tempName = players[index]["name"]
+    tempColor = "var(--color-player-accent-" + players[index]["color"] + ")"
+    tempToken = players[index]["token"]
   } else {
+    tempName = ""
+    tempColor = getRandomColor()
+    tempToken = "thimble"
     nameBox.value = ""
-    playerColor = getRandomColor()
-
-    selectToken("thimble")
-    setColors()
-    scrollToToken(playerToken)
   }
+
+  nameBox.value = tempName
+  selectToken(tempToken)
+  setColors()
+  scrollToToken(tempToken)
 
   colorButton.onclick = () => {
     playSound(audioColor);
-    playerColor = getRandomColor()
-    selectToken(playerToken)
-    scrollToToken(playerToken)
+    tempColor = getRandomColor()
+    selectToken(tempToken)
+    scrollToToken(tempToken)
     setColors()
   };
 
+  for (let tokenPiece of presetTokens) {
+    document.getElementById("id-select-token-" + tokenPiece).onclick = () => {
+      playSound(audioClick);
+      tempToken = tokenPiece
+      selectToken(tempToken)
+    };
+  }
+
   function setColors() {
-    nameBox.style.color = playerColor
-    colorButton.style.backgroundColor = playerColor
+    nameBox.style.color = tempColor
+    colorButton.style.backgroundColor = tempColor
   }
 
   function selectToken(token) {
     document.querySelectorAll(".select-token").forEach(element => {
       element.style.border = "8px solid transparent"
     });
-    document.getElementById("id-select-token-" + token).style.border = "8px solid " + playerColor
+    document.getElementById("id-select-token-" + token).style.border = "8px solid " + tempColor
   }
 
   function scrollToToken(token) {
     console.log('SCROLL');
     let topPos = document.getElementById("id-select-token-" + token).offsetLeft
-    document.getElementById("id-select-token-container").scrollLeft = topPos - 16
+    document.getElementById("id-select-token-container").scrollLeft = topPos - 32 - 200 - 32 - 16
     console.log('SCROLL 2');
   }
+
+  document.getElementById("id-popup-create-accept").onclick = () => {
+    playSound(audioPowerup)
+    if (mode == "edit") {
+      players[index]["name"] = nameBox.value
+      players[index]["color"] = tempColor.replace("var(--color-player-accent-", "").replace(")", "")
+      players[index]["token"] = tempToken
+    } else {
+      players.push({
+        name: nameBox.value,
+        capital: defaultStartCapital,
+        token: tempToken,
+        color: tempColor.replace("var(--color-player-accent-", "").replace(")", ""),
+        capitalchange: false,
+        lost: false,
+      })
+    }
+    updatePlayers()
+    closePlayerEditPopup()
+  };
 
   popup.style.display = "flex";
 }
@@ -526,4 +550,11 @@ function giveUp(player) {
   players.push(players.splice(index, 1)[0]);
   playSound(audioLoose);
   updatePlayers();
+}
+
+function deleteAllPlayers() {
+  playSound(audioClick);
+  closeOptionsPopup()
+  players = []
+  updatePlayers()
 }
