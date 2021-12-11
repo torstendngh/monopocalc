@@ -338,13 +338,10 @@ function openPlayerEditPopup(mode, player) {
   let popup = document.getElementById("id-popup-player-create");
   let nameBox = document.getElementById("id-popup-create-name")
   let colorButton = document.getElementById("id-popup-create-color")
+
   let playerToken
 
-  try {
-    playerToken = players[index]["token"]
-  } catch(e) {
-    playerToken = "thimble"
-  }
+
 
   let playerColor
 
@@ -354,24 +351,33 @@ function openPlayerEditPopup(mode, player) {
     }
   });
 
+  try {
+    playerToken = players[index]["token"]
+  } catch(e) {
+    playerToken = "thimble"
+  }
+
   if (mode == "edit") {
     nameBox.value = players[index]["name"]
     playerColor = "var(--color-player-accent-" + players[index]["color"] + ")"
 
     selectToken(players[index]["token"])
     setColors()
+    scrollToToken(playerToken)
   } else {
     nameBox.value = ""
     playerColor = getRandomColor()
 
     selectToken("thimble")
     setColors()
+    scrollToToken(playerToken)
   }
 
   colorButton.onclick = () => {
     playSound(audioColor);
     playerColor = getRandomColor()
     selectToken(playerToken)
+    scrollToToken(playerToken)
     setColors()
   };
 
@@ -385,6 +391,13 @@ function openPlayerEditPopup(mode, player) {
       element.style.border = "8px solid transparent"
     });
     document.getElementById("id-select-token-" + token).style.border = "8px solid " + playerColor
+  }
+
+  function scrollToToken(token) {
+    console.log('SCROLL');
+    let topPos = document.getElementById("id-select-token-" + token).offsetLeft
+    document.getElementById("id-select-token-container").scrollLeft = topPos - 16
+    console.log('SCROLL 2');
   }
 
   popup.style.display = "flex";
