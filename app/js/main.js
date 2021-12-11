@@ -13,8 +13,10 @@ let audioPowerup = new Audio("app/audio/powerup.mp3");
 let audioReset = new Audio("app/audio/reset.mp3");
 let audioLoose = new Audio("app/audio/loose.mp3");
 let audioWin = new Audio("app/audio/win.mp3");
+let audioColor = new Audio("app/audio/color.mp3");
 
 let players;
+let lastRandomNumber = -1
 
 try {
   players = JSON.parse(localStorage.players);
@@ -84,6 +86,38 @@ try {
       capitalchange: false,
       lost: false,
     },
+    {
+      name: "Cat",
+      capital: defaultStartCapital,
+      token: "cat",
+      color: 2,
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Duck",
+      capital: defaultStartCapital,
+      token: "duck",
+      color: 2,
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "Penguin",
+      capital: defaultStartCapital,
+      token: "penguin",
+      color: 2,
+      capitalchange: false,
+      lost: false,
+    },
+    {
+      name: "T-Rex",
+      capital: defaultStartCapital,
+      token: "trex",
+      color: 2,
+      capitalchange: false,
+      lost: false,
+    }
   ];
   localStorage.players = JSON.stringify(players);
 }
@@ -105,7 +139,16 @@ function playSound(sound) {
 }
 
 function getRandomColor() {
-  return "var(--color-player-accent-" + randomIntFromInterval(1, 8) + ")";
+
+  let num = randomIntFromInterval(1, 8)
+
+  while (num == lastRandomNumber) {
+    num = randomIntFromInterval(1, 8)
+  }
+
+  lastRandomNumber = num
+
+  return "var(--color-player-accent-" + num + ")";
 
   function randomIntFromInterval(min, max) {
     // min and max included
@@ -326,7 +369,7 @@ function openPlayerEditPopup(mode, player) {
   }
 
   colorButton.onclick = () => {
-    playSound(audioClick);
+    playSound(audioColor);
     playerColor = getRandomColor()
     selectToken(playerToken)
     setColors()
@@ -335,7 +378,6 @@ function openPlayerEditPopup(mode, player) {
   function setColors() {
     nameBox.style.color = playerColor
     colorButton.style.backgroundColor = playerColor
-
   }
 
   function selectToken(token) {
