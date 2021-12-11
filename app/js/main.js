@@ -340,9 +340,6 @@ function openPlayerEditPopup(mode, player) {
   let colorButton = document.getElementById("id-popup-create-color")
 
   let playerToken
-
-
-
   let playerColor
 
   let index = players.findIndex((element, index) => {
@@ -441,7 +438,7 @@ function addPlayerToList(parent, player) {
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
-        background-image: url('/app/images/pieces/${playerToken}.png');
+        background-image: url('../../app/images/pieces/${playerToken}.png');
         align-self: center;
         height: 160px;
         width: 160px;
@@ -480,7 +477,15 @@ function addPlayerToList(parent, player) {
             <path d="M4.40137 18.5C4.92008 19.3967 5.8896 20 7.00002 20H17.25C19.8734 20 22 17.8734 22 15.25V10C22 8.8896 21.3967 7.92008 20.5 7.40137V15.25C20.5 17.0449 19.0449 18.5 17.25 18.5H4.40137Z" fill="currentColor"/>
           </svg>
         </div>
-        <span class="player-button-text">Passed Go</span>
+        <span class="player-button-text">
+          Passed Go<br>
+          <span class="player-button-text" style="color: var(--color-player-text-2); display: inline;">
+            +200
+            <p class="player-button-text" style="color: var(--color-player-text-2); text-decoration: line-through; display: inline;">
+              M
+            </p>
+          </span>
+        </span>
       </div>
 
       <div class="player-button player-button-accent" style="border: none; background-color: var(${playerColor});" onclick="openTransactionPopup('${playerName}')">

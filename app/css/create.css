@@ -90,26 +90,26 @@
 }
 
 #id-select-token-thimble {
-  background-image: url("/app/images/pieces/thimble.png");
+  background-image: url("../..//app/images/pieces/thimble.png");
 }
 #id-select-token-ship {
-  background-image: url("/app/images/pieces/ship.png");
+  background-image: url("../../app/images/pieces/ship.png");
 }
 #id-select-token-iron {
-  background-image: url("/app/images/pieces/iron.png");
+  background-image: url("../../app/images/pieces/iron.png");
 }
 #id-select-token-hat {
-  background-image: url("/app/images/pieces/hat.png");
+  background-image: url("../../app/images/pieces/hat.png");
 }
 #id-select-token-dog {
-  background-image: url("/app/images/pieces/dog.png");
+  background-image: url("../../app/images/pieces/dog.png");
 }
 #id-select-token-car {
-  background-image: url("/app/images/pieces/car.png");
+  background-image: url("../../app/images/pieces/car.png");
 }
 #id-select-token-boot {
-  background-image: url("/app/images/pieces/boot.png");
+  background-image: url("../../app/images/pieces/boot.png");
 }
 #id-select-token-barrow {
-  background-image: url("/app/images/pieces/barrow.png");
+  background-image: url("../../app/images/pieces/barrow.png");
 }
